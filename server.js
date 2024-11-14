@@ -109,7 +109,7 @@ app.post("/homepage", (req, res) => {
                 if(err) throw err;
                 else {
                      console.log(data)
-                    res.render("homepage", { tasks: data });
+                    res.render("homepage", { tasks: data, id: userId });
                 }
             })
             
@@ -125,7 +125,7 @@ app.post("/homepage", (req, res) => {
 //add-task
 app.post("/add-task",(req,res)=>{
     console.log(req.body);
-
+    var id = req.body.id
     const {title, description, status,priority} = req.body;
     if(!title, !description) console.log("missing title or description");
     const today = new Date();
