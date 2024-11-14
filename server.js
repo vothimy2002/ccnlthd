@@ -97,9 +97,20 @@ app.post("/homepage", (req, res) => {
 
         // Kiểm tra nếu tìm thấy người dùng trong cơ sở dữ liệu
         if (result.length > 0) {
+            var userId = result[0].id
+            // console.log(userId)
             // console.log("co vao ")
             // Nếu đăng nhập thành công, chuyển hướng đến homepage
-            res.redirect("/homepage");
+            var sql2 = `SELECT * FROM tasks WHERE user_id = '${userId}'`
+            db.query(sql2,(err,data)=>{
+                if(err) throw err;
+                else {
+                    // console.log(data)
+                    res.render("homepage", { tasks: data });
+                   
+                }
+            })
+            
         } else {
             // console.log("co vao ")
             // Nếu không tìm thấy người dùng, render lại login với thông báo lỗi
