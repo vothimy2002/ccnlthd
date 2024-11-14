@@ -55,51 +55,55 @@ app.post("/register",(req,res)=> {
     }  )    
 })
 //Đăng nhập
-app.post("/login",(req,res)=>{
-    console.log(req.body);
-    const {loginUsername, loginPassword} = req.body;
-    if(!loginPassword || !loginPassword) console.log("Missing username or password");
-    var sql =`SELECT * FROM users WHERE username = '${loginUsername}' AND password = '${loginPassword}'`;
-    db.query(sql, (err, result)=>{
-        if(err){
-            console.log("Lỗi");
-            res.redirect("/");
-        };
-        if(result.length >0 ) {
-            res.redirect("homepage");
-        }
-        else
-        {
-            res.redirect("/");
-        }
-    });
-})
+// app.post("/login",(req,res)=>{
+//     console.log(req.body);
+//     const {loginUsername, loginPassword} = req.body;
+//     if(!loginPassword || !loginPassword) console.log("Missing username or password");
+//     var sql =`SELECT * FROM users WHERE username = '${loginUsername}' AND password = '${loginPassword}'`;
+//     db.query(sql, (err, result)=>{
+//         if(err){
+//             console.log("Lỗi");
+//             res.redirect("/");
+//         };
+//         if(result.length >0 ) {
+//             res.redirect("homepage");
+//         }
+//         else
+//         {
+//             res.redirect("/");
+//         }
+//     });
+// })
 
 app.post("/homepage", (req, res) => {
     console.log(req.body);
-    const { loginUsername, loginPassword } = req.body;
+    var loginUsername = req.body.username
+    var loginPassword = req.body.pass
+    // const { loginUsername, loginPassword } = req.body;
 
     // Kiểm tra nếu thiếu username hoặc password
     if (!loginUsername || !loginPassword) {
         console.log("Missing username or password");
-        return res.render("login", { error: "Username or password is missing" });
+        res.redirect("/");
     }
 
     // Truy vấn cơ sở dữ liệu để kiểm tra user
-    var sql = `SELECT * FROM task_statuses WHERE username = '${loginUsername}'`;
+    var sql = `SELECT * FROM users WHERE username = '${loginUsername}' AND password = '${loginPassword}'`;
     db.query(sql, (err, result) => {
         if (err) {
             console.log("Lỗi truy vấn cơ sở dữ liệu", err);
-            return res.render("login", { error: "Database error occurred" });
+            res.redirect("/");
         }
 
         // Kiểm tra nếu tìm thấy người dùng trong cơ sở dữ liệu
         if (result.length > 0) {
+            // console.log("co vao ")
             // Nếu đăng nhập thành công, chuyển hướng đến homepage
             res.redirect("/homepage");
         } else {
+            // console.log("co vao ")
             // Nếu không tìm thấy người dùng, render lại login với thông báo lỗi
-            return res.render("login", { error: "Invalid username or password" });
+            res.redirect("/");
         }
     });
 });
