@@ -5,12 +5,141 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Task Manager</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+     body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f9;
+            margin: 0;
+        }
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        .task-card {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s;
+        }
+        .task-card:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .task-title {
+            font-size: 1.2em;
+            margin: 0 0 10px;
+            color: #333;
+        }
+        .task-details {
+            font-size: 0.9em;
+            color: #666;
+        }
+        .add-task-button {
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    border-radius: 8px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+.modal input, .modal textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.submit-button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+  </style>
 </head>
 <body>
-  <div class="container my-5">
-    <h2 class="text-center">Task Manager</h2>
+  <div class="container">
+    <!-- Each div with class "task-card" represents a task item -->
+    <div class="task-card">
+        <h3 class="task-title">Task 1</h3>
+        <p class="task-details">Description of Task 1.</p>
+    </div>
+    <div class="task-card">
+        <h3 class="task-title">Task 2</h3>
+        <p class="task-details">Description of Task 2.</p>
+    </div>
+    <div class="task-card">
+        <h3 class="task-title">Task 3</h3>
+        <p class="task-details">Description of Task 3.</p>
+    </div>
+    <div class="task-card">
+        <h3 class="task-title">Task 4</h3>
+        <p class="task-details">Description of Task 4.</p>
+    </div>
+    <div class="task-card">
+        <h3 class="task-title">Task 5</h3>
+        <p class="task-details">Description of Task 5.</p>
+    </div>
+    <!-- Add more task cards as needed -->
+</div>
+<button class="add-task-button" onclick="openModal()" style="position: absolute; right: 0; top: 0;">Thêm Công Việc</button>
+</div>
 
-    <!-- Form to Add New Task -->
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
     <div class="card my-4">
       <div class="card-body">
         <h5 class="card-title">Add New Task</h5>
@@ -44,9 +173,55 @@
         </form>
       </div>
     </div>
+     
+     <!--  <h2>Thêm Công Việc Mới</h2>
+      <input type="text" id="taskTitle" placeholder="Tiêu đề công việc">
+      <textarea id="taskDescription" rows="4" placeholder="Mô tả công việc"></textarea>
+      <button class="submit-button" onclick="addTask()">Thêm Công Việc</button> -->
+  </div>
+</div>
+</body>
+  <!-- <div class="container my-5"> -->
+    <!-- <h2 class="text-center">Task Manager</h2> -->
+
+    <!-- Form to Add New Task -->
+    <!-- <div class="card my-4">
+      <div class="card-body">
+        <h5 class="card-title">Add New Task</h5>
+       
+        <form id="taskForm" method="POST" action="/add-task">
+          <div class="mb-3">
+            <label for="titleInput" class="form-label">Tiêu đề</label>
+            <input type="text" id="titleInput" name="title" class="form-control" placeholder="Enter task title">
+          </div>
+          <div class="mb-3">
+            <label for="descriptionInput" class="form-label">Mô tả</label>
+            <textarea id="descriptionInput" name="description" class="form-control" rows="3" placeholder="Enter task description"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="statusInput" class="form-label">Trạng thái</label>
+            <select id="statusInput" name="status" class="form-select">
+              <option value="1">Chưa</option>
+              <option value="2">Đang làm</option>
+              <option value="3">Đã hoàn thành</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="priorityInput" class="form-label">Mức độ ưu tiên</label>
+            <select id="priorityInput" name="priority" class="form-select">
+              <option value="1">Thấp</option>
+              <option value="2">Trung bình</option>
+              <option value="3">Cao</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Thêm</button>
+        </form>
+      </div>
+    </div>
+     -->
 
     <!-- Task List Table -->
-    <table class="table table-bordered table-striped">
+    <!-- <table class="table table-bordered table-striped">
       <thead>
         <tr>
           <th>#</th>
@@ -59,7 +234,7 @@
       </thead>
       <tbody id="taskList"></tbody>
     </table>
-  </div>
+  </div> -->
 
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
   <script>
@@ -128,3 +303,14 @@
   </script> -->
 </body>
 </html>
+<script>
+
+function openModal() {
+    document.getElementById("myModal").style.display = "block";
+}
+
+function closeModal() {
+    document.getElementById("myModal").style.display = "none";
+}
+
+</script>

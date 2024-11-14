@@ -13,10 +13,10 @@ app.use(express.urlencoded({ extended: true }));
         password:'',
         database:'task_manager'
     });
-    // db.connect((err)=>{
-    //     if(err) console.log('Kết nối thất bại');
-    //     else console.log('Kết nối thành công');
-    // })
+    db.connect((err)=>{
+        if(err) console.log('Kết nối thất bại');
+        else console.log('Kết nối thành công');
+    })
     
 app.get("/",(req,res)=>{
     res.render("login");
