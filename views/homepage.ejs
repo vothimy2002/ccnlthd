@@ -111,12 +111,19 @@
 </head>
 <body>
   <div class="container">
-    <% if (typeof username !== 'undefined') {
+    <% if (tasks && tasks.length > 0) {
       for(let i of tasks){ %>
     <!-- Each div with class "task-card" represents a task item -->
     <div class="task-card">
         <h3 class="task-title"><%= i.title %></h3>
         <p class="task-details"><%= i.description %></p>
+        <% if(i.status_id == 1){%>
+          <button type="button" class="btn btn-outline-danger">Chưa hoàn thành</button>
+          <% } else if(i.status_id == 2){ %>
+            <button type="button" class="btn btn-outline-warning">Đang làm</button>
+            <% } else { %>
+              <button type="button" class="btn btn-outline-success">Hoàn thành</button>
+              <% } %>
     </div>
     <% }
   } %>

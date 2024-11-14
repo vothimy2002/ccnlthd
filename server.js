@@ -102,16 +102,14 @@ app.post("/homepage", (req, res) => {
             // console.log("co vao ")
             // Nếu đăng nhập thành công, chuyển hướng đến homepage
 
-             id = result[0].id;
-            console.log(id);
-            res.redirect("/homepage");
+            //  id = result[0].id;
+            // console.log(id);
             var sql2 = `SELECT * FROM tasks WHERE user_id = '${userId}'`
             db.query(sql2,(err,data)=>{
                 if(err) throw err;
                 else {
-                    // console.log(data)
+                     console.log(data)
                     res.render("homepage", { tasks: data });
-                   
                 }
             })
             
