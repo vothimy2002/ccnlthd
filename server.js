@@ -205,6 +205,7 @@ app.post("/delete",(req,res)=>{
     console.log("id",req.body);
     const idDelete = req.body;
     var sql = `DELETE FROM tasks WHERE id = '${idDelete}'`;
+    console.log("id", idDelete);
     db.query(sql, (err,result)=>{
         if(err) console.log("Loi");
         else{
