@@ -107,8 +107,8 @@ app.post("/homepage", (req, res) => {
             // console.log("co vao ")
             // Nếu đăng nhập thành công, chuyển hướng đến homepage
 
-            //  id = result[0].id;
-            // console.log(id);
+             uid = result[0].id;
+            console.log(id);
             var sql2 = `SELECT * FROM tasks WHERE user_id = '${userId}'`
             db.query(sql2,(err,data)=>{
                 if(err) throw err;
@@ -170,14 +170,30 @@ app.post("/add-task",(req,res)=>{
     const formattedDateTime = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
     console.log(formattedDateTime); // Ví dụ: "14/11/2024 15:30:45"
     const sql = 'INSERT INTO tasks (user_id, title, description, status_id, createdAt, updatedAt, priority_id) VALUES (?, ?, ?, ?, ?, ?, ?)';
-    db.query(sql,[id,title, description,status,new Date(), new Date(), priority], (err, result)=>{
+    console.log("id", id)
+    db.query(sql,[uid,title, description,status,new Date(), new Date(), priority], (err, result)=>{
         if(err) {
             console.log('add thất bại', err);
-            res.redirect("/homepage")
+            var sql2 = `SELECT * FROM tasks WHERE user_id = '${uid}'`
+            db.query(sql2,(err,data)=>{
+                if(err) throw err;
+                else {
+                     console.log(data)
+                    res.render("homepage", { tasks: data , id:uid});
+                }
+            })
 
         }else{
             console.log('add thành công');
-            res.redirect("/homepage")
+            var sql2 = `SELECT * FROM tasks WHERE user_id = '${uid}'`
+            db.query(sql2,(err,data)=>{
+                if(err) throw err;
+                else {
+                     console.log(data)
+                    res.render("homepage", { tasks: data , id:uid});
+                }
+            })
+            
         }
     })
      
