@@ -76,19 +76,24 @@ app.post("/register",(req,res)=> {
 // })
 let id;
 app.post("/homepage", (req, res) => {
-    console.log(req.body);
+    var id = req.query.id;
     var loginUsername = req.body.username
     var loginPassword = req.body.pass
+    var sql;
     // const { loginUsername, loginPassword } = req.body;
-
+    console.log(id)
     // Kiểm tra nếu thiếu username hoặc password
-    if (!loginUsername || !loginPassword) {
-        console.log("Missing username or password");
-        res.redirect("/");
+    if (!loginUsername || !loginPassword && id) {
+        // console.log("Missing username or password");
+        // res.redirect("/");
+        sql = `SELECT * FROM users WHERE id = '${id}'`;
+    }
+    else{
+        sql = `SELECT * FROM users WHERE username = '${loginUsername}' AND password = '${loginPassword}'`;
     }
 
     // Truy vấn cơ sở dữ liệu để kiểm tra user
-    var sql = `SELECT * FROM users WHERE username = '${loginUsername}' AND password = '${loginPassword}'`;
+    
     db.query(sql, (err, result) => {
         if (err) {
             console.log("Lỗi truy vấn cơ sở dữ liệu", err);
@@ -121,6 +126,32 @@ app.post("/homepage", (req, res) => {
         }
     });
 });
+
+app.post("/action",(req, res)=>{
+    var idpost = req.body.idpost
+    var userId = req.body.iduser
+    var sql = `UPDATE tasks SET status_id = 3 WHERE id ='${idpost}'`;
+    
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.log("Lỗi truy vấn cơ sở dữ liệu", err);
+            res.redirect("/");
+        }
+        else{
+            var sql2 = `SELECT * FROM tasks WHERE user_id = '${userId}'`
+            db.query(sql2,(err,data)=>{
+                if(err) throw err;
+                else {
+                     console.log(data)
+                    res.render("homepage", { tasks: data, id: userId });
+                }
+            })
+            // res.redirect(`/homepage?id=${id}`);
+            // res.redirect("/homepage");   
+        }
+    });
+})
+
 //add-task
 app.post("/add-task",(req,res)=>{
     console.log(req.body);

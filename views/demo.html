@@ -5,68 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Grid</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f4f4f9;
-            margin: 0;
-        }
-        .container {
-            width: 80%;
-            max-width: 1200px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-        }
-        .task-card {
-            background-color: #ffffff;
-            border: 1px solid #ddd;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: box-shadow 0.3s;
-        }
-        .task-card:hover {
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-        .task-title {
-            font-size: 1.2em;
-            margin: 0 0 10px;
-            color: #333;
-        }
-        .task-details {
-            font-size: 0.9em;
-            color: #666;
-        }
+      #statusDropdown {
+    display: none; /* Ban đầu ẩn dropdown */
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+#statusDropdown button {
+    width: 100%;
+    margin: 5px 0;
+    text-align: left;
+}
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Each div with class "task-card" represents a task item -->
-        <div class="task-card">
-            <h3 class="task-title">Task 1</h3>
-            <p class="task-details">Description of Task 1.</p>
-        </div>
-        <div class="task-card">
-            <h3 class="task-title">Task 2</h3>
-            <p class="task-details">Description of Task 2.</p>
-        </div>
-        <div class="task-card">
-            <h3 class="task-title">Task 3</h3>
-            <p class="task-details">Description of Task 3.</p>
-        </div>
-        <div class="task-card">
-            <h3 class="task-title">Task 4</h3>
-            <p class="task-details">Description of Task 4.</p>
-        </div>
-        <div class="task-card">
-            <h3 class="task-title">Task 5</h3>
-            <p class="task-details">Description of Task 5.</p>
-        </div>
-        <!-- Add more task cards as needed -->
-    </div>
+    <button type="button" class="btn btn-outline-danger" onclick="toggleDropdown()">Chưa hoàn thành</button>
+
+    <div id="statusDropdown" style="display:none;">
+        <button class="btn btn-outline-warning" onclick="changeStatus('Đang làm')">Đang làm</button>
+        <button class="btn btn-outline-success" onclick="changeStatus('Đã hoàn thành')">Đã hoàn thành</button>
+      </div>
 </body>
 </html>
+<script>
+    // Hàm để toggle dropdown khi click vào button
+function toggleDropdown() {
+    var dropdown = document.getElementById('statusDropdown');
+    if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+        dropdown.style.display = 'block'; // Hiển thị dropdown
+    } else {
+        dropdown.style.display = 'none'; // Ẩn dropdown
+    }
+}
+
+// Hàm thay đổi trạng thái khi chọn một lựa chọn
+function changeStatus(status) {
+    // Cập nhật trạng thái của button thành lựa chọn được chọn
+    var button = document.querySelector('.btn-outline-danger');
+    button.textContent = status; // Cập nhật văn bản của button
+
+    // Ẩn dropdown sau khi chọn
+    document.getElementById('statusDropdown').style.display = 'none';
+}
+
+</script>
