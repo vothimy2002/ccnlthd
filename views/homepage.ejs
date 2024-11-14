@@ -154,12 +154,13 @@
     <% if (tasks && tasks.length > 0) {
       for(let i of tasks){ %>
     <!-- Each div with class "task-card" represents a task item -->
-     <form action="/action" method="post">
+     
     <div class="task-card">
         <form action="/delete" method="post">
           <input type="hidden" name="idDelete" value=<%= i.id %> 
           <button type="submit" class="delete-btn">X</button>
         </form>
+        <form action="/action" method="post">
       <input type="hidden" name="idpost" value=<%= i.id %>>
       <input type="hidden" name="iduser" value=<%= i.user_id %>
 
@@ -168,10 +169,11 @@
         <% if(i.status_id == 1){%>
           <button type="submit" class="btn btn-outline-danger">Chưa làm</button>
           <% } else if(i.status_id == 3){ %>
-            <button type="submit" class="btn btn-outline-success">Hoàn thành</button>
+            <button type="submit" class="btn btn-outline-success" disabled>Hoàn thành</button>
             <% } %>
+          </form>
     </div>
-  </form>
+  
     <% }
   } %>
     <!-- Add more task cards as needed -->
