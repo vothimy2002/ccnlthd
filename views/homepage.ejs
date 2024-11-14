@@ -111,29 +111,15 @@
 </head>
 <body>
   <div class="container">
-    <% for(let i of tasks){ %>
+    <% if (typeof username !== 'undefined') {
+      for(let i of tasks){ %>
     <!-- Each div with class "task-card" represents a task item -->
     <div class="task-card">
         <h3 class="task-title"><%= i.title %></h3>
         <p class="task-details"><%= i.description %></p>
     </div>
-    <% } %>
-    <div class="task-card">
-        <h3 class="task-title">Task 2</h3>
-        <p class="task-details">Description of Task 2.</p>
-    </div>
-    <div class="task-card">
-        <h3 class="task-title">Task 3</h3>
-        <p class="task-details">Description of Task 3.</p>
-    </div>
-    <div class="task-card">
-        <h3 class="task-title">Task 4</h3>
-        <p class="task-details">Description of Task 4.</p>
-    </div>
-    <div class="task-card">
-        <h3 class="task-title">Task 5</h3>
-        <p class="task-details">Description of Task 5.</p>
-    </div>
+    <% }
+  } %>
     <!-- Add more task cards as needed -->
 </div>
 <button class="add-task-button" onclick="openModal()" style="position: absolute; right: 0; top: 0;">Thêm Công Việc</button>
