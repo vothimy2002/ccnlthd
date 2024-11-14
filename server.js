@@ -74,7 +74,7 @@ app.post("/register",(req,res)=> {
 //         }
 //     });
 // })
-
+let id;
 app.post("/homepage", (req, res) => {
     console.log(req.body);
     var loginUsername = req.body.username
@@ -99,6 +99,8 @@ app.post("/homepage", (req, res) => {
         if (result.length > 0) {
             // console.log("co vao ")
             // Nếu đăng nhập thành công, chuyển hướng đến homepage
+             id = result[0].id;
+            console.log(id);
             res.redirect("/homepage");
         } else {
             // console.log("co vao ")
@@ -128,7 +130,7 @@ app.post("/add-task",(req,res)=>{
     const formattedDateTime = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
     console.log(formattedDateTime); // Ví dụ: "14/11/2024 15:30:45"
     const sql = 'INSERT INTO tasks (user_id, title, description, status_id, createdAt, updatedAt, priority_id) VALUES (?, ?, ?, ?, ?, ?, ?)';
-    db.query(sql,['1',title, description,status,new Date(), new Date(), priority], (err, result)=>{
+    db.query(sql,[id,title, description,status,new Date(), new Date(), priority], (err, result)=>{
         if(err) {
             console.log('add thất bại', err);
             res.redirect("/homepage")
