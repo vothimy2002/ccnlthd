@@ -106,15 +106,59 @@
     cursor: pointer;
     font-size: 1em;
 }
+.delete-btn {
+    background: none;   
+    border: none;       
+    color: #000;       
+    font-size: 1.5rem;    
+    cursor: pointer;       
+    padding: 0;           
+}
+
+.delete-btn:hover {
+    color: red;            
+}
+.task-card {
+    position: relative;      /* Đặt vị trí tương đối cho thẻ chứa để nút "X" có thể định vị tuyệt đối bên trong */
+    padding: 1rem;
+    border: 1px solid #ddd;  /* Tùy chọn: thêm đường viền để phân cách các thẻ */
+    margin-bottom: 1rem;
+    border-radius: 5px;
+}
+
+.delete-btn {
+    position: absolute;
+    top: 15px;               /* Căn chỉnh nút ngang với tiêu đề */
+    right: 15px;             /* Đưa nút về góc trên bên phải */
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 1rem;         /* Giảm kích thước của nút "X" */
+    cursor: pointer;
+    padding: 0;
+}
+
+.delete-btn:hover {
+    color: red;              /* Màu sắc khi di chuột vào nút "X" */
+}
+
+.task-title {
+    margin-right: 1.5rem;    /* Thêm khoảng cách giữa tiêu đề và nút "X" */
+}
+
 
   </style>
 </head>
 <body>
-  <div class="container">
+    <div class="container">
     <% if (tasks && tasks.length > 0) {
       for(let i of tasks){ %>
     <!-- Each div with class "task-card" represents a task item -->
     <div class="task-card">
+        <form action="/delete" method="post">
+          <input type="hidden" name="idDelete" value=<%= i.title %> >
+          <button type="submit" class="delete-btn">X</button>
+        </form>
         <h3 class="task-title"><%= i.title %></h3>
         <p class="task-details"><%= i.description %></p>
         <% if(i.status_id == 1){%>
@@ -152,8 +196,7 @@
             <label for="statusInput" class="form-label">Trạng thái</label>
             <select id="statusInput" name="status" class="form-select">
               <option value="1">Chưa</option>
-              <option value="2">Đang làm</option>
-              <option value="3">Đã hoàn thành</option>
+              
             </select>
           </div>
           <div class="mb-3">
@@ -164,7 +207,6 @@
               <option value="3">Cao</option>
             </select>
           </div>
-          <input type="hidden" name="id" value=<%= id %>>
           <button type="submit" class="btn btn-primary">Thêm</button>
         </form>
       </div>
