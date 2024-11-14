@@ -5,6 +5,7 @@ const port=3000;
 app.set("views","./views")
 
 app.get("/",(req,res)=>{
-    res.render("log");
+    res.render("login");
 });
-app.listen(port,()=>console.log("chay chuong trinh ung dung"));s                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+
+app.listen(port,()=>console.log("chay chuong trinh ung dung"));
