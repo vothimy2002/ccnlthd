@@ -156,24 +156,11 @@ app.post("/action",(req, res)=>{
 app.post("/add-task",(req,res)=>{
     console.log(req.body);
     var id = req.body.id
-    const {title, description, status,priority} = req.body;
+    const {title, description, status} = req.body;
     if(!title, !description) console.log("missing title or description");
-    const today = new Date();
-
-    // Lấy ngày, tháng, năm, giờ, phút, giây
-    const day = today.getDate();
-    const month = today.getMonth() + 1;
-    const year = today.getFullYear();
-    const hours = today.getHours();
-    const minutes = today.getMinutes();
-    const seconds = today.getSeconds();
-    
-    // Định dạng ngày và giờ
-    const formattedDateTime = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
-    console.log(formattedDateTime); // Ví dụ: "14/11/2024 15:30:45"
     const sql = 'INSERT INTO tasks (user_id, title, description, status_id, createdAt, updatedAt, priority_id) VALUES (?, ?, ?, ?, ?, ?, ?)';
     console.log("id", id)
-    db.query(sql,[uid,title, description,status,new Date(), new Date(), priority], (err, result)=>{
+    db.query(sql,[uid,title, description,status,new Date(), new Date(), 1], (err, result)=>{
         if(err) {
             console.log('add thất bại', err);
             var sql2 = `SELECT * FROM tasks WHERE user_id = '${uid}'`
@@ -203,8 +190,10 @@ app.post("/add-task",(req,res)=>{
 //delete
 app.post("/delete",(req,res)=>{
     console.log("id",req.body);
-    const idDelete = req.body;
+    const {idDelete} = req.body;
     var sql = `DELETE FROM tasks WHERE id = '${idDelete}'`;
+    console.log(sql);
+    console.log("id", idDelete);
     db.query(sql, (err,result)=>{
         if(err) console.log("Loi");
         else{
