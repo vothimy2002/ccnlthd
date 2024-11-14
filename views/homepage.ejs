@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container my-5">
+    <h2 class="text-center">Task Manager</h2>
+
+    <!-- Form to Add New Task -->
+    <div class="card my-4">
+      <div class="card-body">
+        <h5 class="card-title">Add New Task</h5>
+        <!-- Add a form around the input fields -->
+        <form id="taskForm" method="POST" action="/add-task">
+          <div class="mb-3">
+            <label for="titleInput" class="form-label">Tiêu đề</label>
+            <input type="text" id="titleInput" name="title" class="form-control" placeholder="Enter task title">
+          </div>
+          <div class="mb-3">
+            <label for="descriptionInput" class="form-label">Mô tả</label>
+            <textarea id="descriptionInput" name="description" class="form-control" rows="3" placeholder="Enter task description"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="statusInput" class="form-label">Trạng thái</label>
+            <select id="statusInput" name="status" class="form-select">
+              <option value="1">Chưa</option>
+              <option value="2">Đang làm</option>
+              <option value="3">Đã hoàn thành</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="priorityInput" class="form-label">Mức độ ưu tiên</label>
+            <select id="priorityInput" name="priority" class="form-select">
+              <option value="1">Thấp</option>
+              <option value="2">Trung bình</option>
+              <option value="3">Cao</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Thêm</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Task List Table -->
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Priority</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="taskList"></tbody>
+    </table>
+  </div>
+
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script>
+    let tasks = [];
+
+    function renderTasks() {
+      const taskList = document.getElementById("taskList");
+      taskList.innerHTML = '';
+      tasks.forEach((task, index) => {
+        taskList.innerHTML += `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${task.title}</td>
+            <td>${task.description}</td>
+            <td>${task.status}</td>
+            <td>${task.priority}</td>
+            <td>
+              <button class="btn btn-warning btn-sm" onclick="showEditTask(${index})">Edit</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteTask(${index})">Delete</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    // Fetch the task list from backend when page loads
+    fetch('/tasks')
+      .then(response => response.json())
+      .then(data => {
+        tasks = data;
+        renderTasks();
+      });
+
+    // Handle form submit
+    const taskForm = document.getElementById('taskForm');
+    taskForm.addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent default form submission
+      const title = document.getElementById("titleInput").value;
+      const description = document.getElementById("descriptionInput").value;
+      const status = document.getElementById("statusInput").value;
+      const priority = document.getElementById("priorityInput").value;
+
+      // Send data to backend
+      fetch('/add-task', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title,
+          description,
+          status,
+          priority
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        tasks.push(data); // Add new task to local list
+        renderTasks();
+        taskForm.reset(); // Clear the form
+      });
+    });
+
+    function deleteTask(index) {
+      tasks.splice(index, 1);
+      renderTasks();
+    }
+  </script> -->
+</body>
+</html>
