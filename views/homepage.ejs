@@ -111,11 +111,13 @@
 </head>
 <body>
   <div class="container">
+    <% for(let i of tasks){ %>
     <!-- Each div with class "task-card" represents a task item -->
     <div class="task-card">
-        <h3 class="task-title">Task 1</h3>
-        <p class="task-details">Description of Task 1.</p>
+        <h3 class="task-title"><%= i.title %></h3>
+        <p class="task-details"><%= i.description %></p>
     </div>
+    <% } %>
     <div class="task-card">
         <h3 class="task-title">Task 2</h3>
         <p class="task-details">Description of Task 2.</p>
