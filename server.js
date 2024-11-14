@@ -13,17 +13,17 @@ app.use(express.urlencoded({ extended: true }));
         password:'',
         database:'task_manager'
     });
-    db.connect((err)=>{
-        if(err) console.log('Kết nối thất bại');
-        else console.log('Kết nối thành công');
-    })
+    // db.connect((err)=>{
+    //     if(err) console.log('Kết nối thất bại');
+    //     else console.log('Kết nối thành công');
+    // })
     
 app.get("/",(req,res)=>{
     res.render("login");
 });
 
 
-app.listen(port,()=>console.log("chay chuong trinh ung dung"));
+// app.listen(port,()=>console.log("chay chuong trinh ung dung"));
 
 app.get("/register",(req,res)=>{
     res.render("register");
@@ -63,17 +63,46 @@ app.post("/login",(req,res)=>{
     db.query(sql, (err, result)=>{
         if(err){
             console.log("Lỗi");
-            res.redirect("/login");
+            res.redirect("/");
         };
         if(result.length >0 ) {
-            res.redirect("/homepage");
+            res.redirect("homepage");
         }
         else
         {
-            res.redirect("/login");
+            res.redirect("/");
         }
     });
 })
+
+app.post("/homepage", (req, res) => {
+    console.log(req.body);
+    const { loginUsername, loginPassword } = req.body;
+
+    // Kiểm tra nếu thiếu username hoặc password
+    if (!loginUsername || !loginPassword) {
+        console.log("Missing username or password");
+        return res.render("login", { error: "Username or password is missing" });
+    }
+
+    // Truy vấn cơ sở dữ liệu để kiểm tra user
+    var sql = `SELECT * FROM task_statuses WHERE username = '${loginUsername}'`;
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.log("Lỗi truy vấn cơ sở dữ liệu", err);
+            return res.render("login", { error: "Database error occurred" });
+        }
+
+        // Kiểm tra nếu tìm thấy người dùng trong cơ sở dữ liệu
+        if (result.length > 0) {
+            // Nếu đăng nhập thành công, chuyển hướng đến homepage
+            res.redirect("/homepage");
+        } else {
+            // Nếu không tìm thấy người dùng, render lại login với thông báo lỗi
+            return res.render("login", { error: "Invalid username or password" });
+        }
+    });
+});
 
 //add-task
 app.post("/add-task",(req,res)=>{
@@ -107,5 +136,5 @@ app.post("/add-task",(req,res)=>{
     })
      
 })
-app.listen(port,()=>console.log("chay chuong trinh ung dung"));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+ app.listen(port,()=>console.log("chay chuong trinh ung dung"));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 
