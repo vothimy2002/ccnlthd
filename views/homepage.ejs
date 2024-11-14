@@ -156,7 +156,7 @@
     <!-- Each div with class "task-card" represents a task item -->
     <div class="task-card">
         <form action="/delete" method="post">
-          <input type="hidden" name="idDelete" value=<%= i.title %> >
+          <input type="hidden" name="idDelete" value=<%= i.id %> >
           <button type="submit" class="delete-btn">X</button>
         </form>
         <h3 class="task-title"><%= i.title %></h3>

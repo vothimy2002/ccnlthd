@@ -121,7 +121,6 @@ app.post("/homepage", (req, res) => {
         }
     });
 });
-
 //add-task
 app.post("/add-task",(req,res)=>{
     console.log(req.body);
@@ -169,6 +168,28 @@ app.post("/add-task",(req,res)=>{
         }
     })
      
+})
+//delete
+app.post("/delete",(req,res)=>{
+    console.log("id",req.body);
+    const idDelete = req.body;
+    var sql = `DELETE FROM tasks WHERE id = '${idDelete}'`;
+    db.query(sql, (err,result)=>{
+        if(err) console.log("Loi");
+        else{
+            var sql2 = `SELECT * FROM tasks WHERE user_id = '${uid}'`;
+            db.query(sql2,(err,data)=>{
+                if(err) throw err;
+                else {
+                     console.log(data)
+                    res.render("homepage", { tasks: data , id:uid});
+                }
+            })
+        }
+        
+    })
+
+
 })
  app.listen(port,()=>console.log("chay chuong trinh ung dung"));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 
