@@ -13,10 +13,10 @@ app.use(express.urlencoded({ extended: true }));
         password:'',
         database:'task_manager'
     });
-    // db.connect((err)=>{
-    //     if(err) console.log('Kết nối thất bại');
-    //     else console.log('Kết nối thành công');
-    // })
+    db.connect((err)=>{
+        if(err) console.log('Kết nối thất bại');
+        else console.log('Kết nối thành công');
+    })
     
 app.get("/",(req,res)=>{
     res.render("login");
@@ -128,7 +128,7 @@ app.post("/add-task",(req,res)=>{
     const formattedDateTime = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
     console.log(formattedDateTime); // Ví dụ: "14/11/2024 15:30:45"
     const sql = 'INSERT INTO tasks (user_id, title, description, status_id, createdAt, updatedAt, priority_id) VALUES (?, ?, ?, ?, ?, ?, ?)';
-    db.query(sql,['1',title, description,status,formattedDateTime, formattedDateTime, priority], (err, result)=>{
+    db.query(sql,['1',title, description,status,new Date(), new Date(), priority], (err, result)=>{
         if(err) {
             console.log('add thất bại', err);
             res.redirect("/homepage")
